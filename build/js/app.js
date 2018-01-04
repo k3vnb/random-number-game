@@ -1,26 +1,63 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
-function Ship(name, power) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Ship = exports.Ship = function Ship(name, power) {
+  _classCallCheck(this, Ship);
+
   this.name = name;
   this.power = power;
-}
-Ship.prototype.nameChanger = function () {
-  return this.name = this.name + " is fast!";
 };
 
+var Game = exports.Game = function () {
+  function Game(one, two) {
+    _classCallCheck(this, Game);
+
+    this.one = one;
+    this.two = two;
+  }
+
+  _createClass(Game, [{
+    key: 'checkType',
+    value: function checkType() {
+      if (this.one === this.two) {
+        console.log(1);
+        var output = ['fall', 'fall'];
+        return output;
+      } else if (this.one > this.two) {
+        console.log(2);
+        var _output = ['pass', 'fall'];
+        return _output;
+      } else if (this.one < this.two) {
+        console.log(2);
+        var _output2 = ['fall', 'pass'];
+        return _output2;
+      }
+    }
+  }]);
+
+  return Game;
+}();
+
 exports.shipModule = Ship;
+exports.gameModule = Game;
 
 },{}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
+var Game = require('../js/backend.js').gameModule;
 var Ship = require('../js/backend.js').shipModule;
 
 $(function () {
-  var ship1 = new Ship("Griffin");
-  var ship2 = new Ship("kevin");
-  console.log(ship1.nameChanger());
-  console.log(ship2.nameChanger());
+  var ship1 = new Ship("Griffin", 0);
+  var ship2 = new Ship("kevin", 0);
 });
 
 },{"../js/backend.js":1}]},{},[2]);

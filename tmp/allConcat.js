@@ -1,8 +1,7 @@
-var Ship = require('../js/backend.js').shipModule;
+const Game = require('../js/backend.js').gameModule;
+const Ship = require('../js/backend.js').shipModule;
 
 $(function() {
-  var ship1 = new Ship("Griffin");
-  var ship2 = new Ship("kevin");
-  console.log(ship1.nameChanger());
-  console.log(ship2.nameChanger());
+  const ship1 = new Ship("Griffin", 0);
+  const ship2 = new Ship("kevin", 0);
 });
