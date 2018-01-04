@@ -91,9 +91,9 @@ $(function () {
     bored.oneName = ship1.name;
     bored.twoName = ship2.name;
     bored.run(bored.checkWin());
-    $('.name-spot-1').append(nameOne + '<br>' + ship1.power);
-    $('.name-spot-2').append(nameTwo + '<br>' + ship2.power);
-    $('#win-div').show().append("And the winner is " + bored.win + ".  Congratulations. Give them some money");
+    $('.name-spot-1').empty().append(nameOne + '<br>' + ship1.power);
+    $('.name-spot-2').empty().append(nameTwo + '<br>' + ship2.power);
+    $('#win-div').empty().show().append("And the winner is " + bored.win + ".  Congratulations. Give them some money");
   });
 });
 
