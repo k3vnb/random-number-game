@@ -17,16 +17,24 @@ var Ship = exports.Ship = function Ship(name, power) {
 };
 
 var Game = exports.Game = function () {
-  function Game(one, two) {
+  function Game() {
     _classCallCheck(this, Game);
 
-    this.one = one;
-    this.two = two;
+    this.win = '';
+    this.one = [];
+    this.oneName = '';
+    this.two = [];
+    this.twoName = '';
   }
 
   _createClass(Game, [{
-    key: 'checkType',
-    value: function checkType() {
+    key: 'randomNumber',
+    value: function randomNumber() {
+      return Math.floor(Math.random() * 10);
+    }
+  }, {
+    key: 'checkWin',
+    value: function checkWin() {
       if (this.one === this.two) {
         console.log(1);
         var output = ['fall', 'fall'];
@@ -36,9 +44,24 @@ var Game = exports.Game = function () {
         var _output = ['pass', 'fall'];
         return _output;
       } else if (this.one < this.two) {
-        console.log(2);
+        console.log(3);
         var _output2 = ['fall', 'pass'];
         return _output2;
+      }
+    }
+  }, {
+    key: 'run',
+    value: function run(stuff) {
+      var fightOutput = stuff;
+
+      if (fightOutput[0] === 'fall') {
+        if (fightOutput[1] === 'fall') {
+          this.win = 'No one goes home tonight';
+        } else {
+          this.win = this.twoName;
+        }
+      } else if (fightOutput[0] === 'pass') {
+        this.win = this.oneName;
       }
     }
   }]);
@@ -56,8 +79,22 @@ var Game = require('../js/backend.js').gameModule;
 var Ship = require('../js/backend.js').shipModule;
 
 $(function () {
-  var ship1 = new Ship("Griffin", 0);
-  var ship2 = new Ship("kevin", 0);
+  $('form').submit(function () {
+    event.preventDefault();
+    var nameOne = $('#name-one-input').val();
+    var nameTwo = $('#name-two-input').val();
+    var bored = new Game();
+    var ship1 = new Ship(nameOne, bored.randomNumber());
+    var ship2 = new Ship(nameTwo, bored.randomNumber());
+    bored.one = ship1.power;
+    bored.two = ship2.power;
+    bored.oneName = ship1.name;
+    bored.twoName = ship2.name;
+    bored.run(bored.checkWin());
+    $('.name-spot-1').append(nameOne + '<br>' + ship1.power);
+    $('.name-spot-2').append(nameTwo + '<br>' + ship2.power);
+    $('#win-div').show().append("And the winner is " + bored.win + ".  Congratulations. Give them some money");
+  });
 });
 
 },{"../js/backend.js":1}]},{},[2]);

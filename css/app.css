@@ -1,3 +1,31 @@
-h1 span {
-  color: green;
+body {
+  background-color: black;
+}
+section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+form {
+  background-color: green;
+  padding: 1%;
+  width: 100%;
+}
+h1 {
+  text-align: center;
+}
+
+.player-box {
+  height: 10vh;
+  width: 10vw;
+  background-color: green;
+  margin: 1px;
+}
+#win-div {
+  display: none;
+  background-color: white;
+  height: 10vw;
+  width: 100%;
 }
