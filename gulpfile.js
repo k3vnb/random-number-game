@@ -1,3 +1,4 @@
+// links all the packages to the gulp task file, "this file"
 var gulp = require('gulp'),
 browserify = require('browserify'),
 source = require('vinyl-source-stream'),
@@ -21,26 +22,102 @@ browserSync = require('browser-sync').create(),
 buildProduction = utilities.env.production,
 babelify = require("babelify");
 
-gulp.task("cssBuild", function() {
-  gulp.src(['css/*.css'])
-  .pipe(concat('vendor.css'))
-  .pipe(gulp.dest('./build/css'))
+//
+//
+//
+//
+//
+//
+//
+//#####################################
+// css stuff
+//this builds our css file and puts it in the build folder
+
+gulp.task("cssBuild", function() { //function for our css grab task
+  gulp.src(['css/*.css']) //grab all the .css filse in the css folder
+  .pipe(concat('vendor.css')) //makes a .css files to put css stuff in
+  .pipe(gulp.dest('./build/css')) //makes a folder to put our new css file in
 });
 
-gulp.task('bower', ['bowerJS', 'bowerCSS']);
-
-gulp.task('bowerJS', function () {
-  return gulp.src(lib.ext('js').files)
-    .pipe(concat('vendor.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('./build/js'));
+gulp.task('bowerCSS', function () { //function for our css build task
+  return gulp.src(lib.ext('css').files) //grab all the .css filse that bower install
+  .pipe(concat('vendor.css')) //contat them all togethor
+  .pipe(gulp.dest('./build/css')); //plays it in the build/css
 });
 
-gulp.task('bowerCSS', function () {
-  return gulp.src(lib.ext('css').files)
-    .pipe(concat('vendor.css'))
-    .pipe(gulp.dest('./build/css'));
+//#####################################
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//#####################################
+// run tasks
+
+gulp.task('bower', ['bowerJS', 'bowerCSS']); // runs our js build and our css build
+
+//#####################################
+//
+//
+//
+//
+//
+//
+//
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//#####################################
+// js build task
+gulp.task('bowerJS', function () { // function start
+  return gulp.src(lib.ext('js').files)//grab all the .js that bower install and concat them in the build/js folder
+  .pipe(concat('vendor.min.js')) // contat the files together
+  .pipe(uglify()) //make them samll
+  .pipe(gulp.dest('./build/js')); // playes them in the build/js file for the html
 });
+
+//#####################################
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
 
 gulp.task("clean", function(){
   return del(['build', 'tmp']);
@@ -102,3 +179,27 @@ gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){
 gulp.task('bowerBuild', ['bower'], function(){
   browserSync.reload();
 });
+
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//#####################################
+//
+
+//#####################################
+//
+//
+//
+//
+//
+//
+//
