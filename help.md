@@ -45,6 +45,7 @@ $ npm install karma-cli --save-dev
 $ npm install karma-browserify --save-dev
 $ npm install karma-jquery --save-dev
 $ npm install karma-jasmine-html-reporter --save-dev
+$ npm install watchify --save-dev
 $ karma init
 
 

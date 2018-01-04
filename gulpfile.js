@@ -23,22 +23,9 @@ buildProduction = utilities.env.production,
 babelify = require("babelify");
 
 //
-//
-//
-//
-//
-//
-//
 //#####################################
 // css stuff
 //this builds our css file and puts it in the build folder
-
-gulp.task("cssBuild", function() { //function for our css grab task
-  gulp.src(['css/*.css']) //grab all the .css filse in the css folder
-  .pipe(concat('vendor.css')) //makes a .css files to put css stuff in
-  .pipe(gulp.dest('./build/css')) //makes a folder to put our new css file in
-});
-
 gulp.task('bowerCSS', function () { //function for our css build task
   return gulp.src(lib.ext('css').files) //grab all the .css filse that bower install
   .pipe(concat('vendor.css')) //contat them all togethor
@@ -48,102 +35,68 @@ gulp.task('bowerCSS', function () { //function for our css build task
 //#####################################
 //
 //
-//
-//
-//
-//
-//
-
-
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//#####################################
-// run tasks
-
-gulp.task('bower', ['bowerJS', 'bowerCSS']); // runs our js build and our css build
-
-//#####################################
-//
-//
-//
-//
-//
-//
-//
-
-
-
-//
-//
-//
-//
-//
-//
-//
 //#####################################
 // js build task
-gulp.task('bowerJS', function () { // function start
+gulp.task('bowerJS', function () { // function start for backend logic
   return gulp.src(lib.ext('js').files)//grab all the .js that bower install and concat them in the build/js folder
   .pipe(concat('vendor.min.js')) // contat the files together
   .pipe(uglify()) //make them samll
   .pipe(gulp.dest('./build/js')); // playes them in the build/js file for the html
 });
 
+gulp.task('concatInterface', function(){ // function start for ui logic
+  return gulp.src(['js/*-ui.js'])
+  .pipe(concat('allConcat.js'))
+  .pipe(gulp.dest('./tmp'));
+});
 //#####################################
 //
 //
+//#####################################
+//jshint stuff
+gulp.task('jshint', function(){ // runs our task
+  return gulp.src(['js/*.js']) //runs the jshint to help us find errors in our .js files
+  .pipe(jshint())
+  .pipe(jshint.reporter('default'));
+});
+//#####################################
 //
 //
-//
-//
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
+//#####################################
+// clean task
 gulp.task("clean", function(){
   return del(['build', 'tmp']);
 });
-
-gulp.task('concatInterface', function(){
-  return gulp.src(['js/*-ui.js'])
-    .pipe(concat('allConcat.js'))
-    .pipe(gulp.dest('./tmp'));
-});
-
-gulp.task('jsBrowserify', ['concatInterface'], function() {
-  return browserify({ entries: ['./tmp/allConcat.js']})
-    .transform(babelify.configure({
-      presets: ["es2015"]
-    }))
-    .bundle()
-    .pipe(source('app.js'))
-    .pipe(gulp.dest('./build/js'))
-});
-
+//#####################################
+//
+//
+//#####################################
+// finele build
 gulp.task('minifyScripts', ['jsBrowserify'], function() {
   return gulp.src('build/js/app.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('./build/js'));
+  .pipe(uglify())
+  .pipe(gulp.dest('./build/js'));
 });
+//#####################################
+//
+//
+//#####################################
+//translate js content
+gulp.task('jsBrowserify', ['concatInterface'], function() {
+  return browserify({ entries: ['./tmp/allConcat.js']})
+  .transform(babelify.configure({
+    presets: ["es2015"]
+  }))
+  .bundle()
+  .pipe(source('app.js'))
+  .pipe(gulp.dest('./build/js'))
+});
+//#####################################
+//
+//
+//#####################################
+// start tasks
+gulp.task('bower', ['bowerJS', 'bowerCSS']); // runs our js build and our css build
 
 gulp.task('build', ['clean'], function(){
   if (buildProduction) {
@@ -154,24 +107,21 @@ gulp.task('build', ['clean'], function(){
   gulp.start('bower');
 });
 
-gulp.task('jshint', function(){
-  return gulp.src(['js/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
-
-gulp.task('serve', function() {
+gulp.task('server', function() {
   browserSync.init({
     server: {
       baseDir: "./",
       index: "index.html"
     }
   });
-
   gulp.watch(['js/*.js'], ['jsBuild']);
   gulp.watch(['bower.json'], ['bowerBuild']);
 });
-
+//#####################################
+//
+//
+//#####################################
+//run task for watch tasks
 gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){
   browserSync.reload();
 });
@@ -179,27 +129,5 @@ gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){
 gulp.task('bowerBuild', ['bower'], function(){
   browserSync.reload();
 });
-
-
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
 //#####################################
-//
-
-//#####################################
-//
-//
-//
-//
-//
-//
 //
